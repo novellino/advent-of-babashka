@@ -22,9 +22,9 @@
 (defn part-1
   "Run with (n)bb -x aoc24.day01/part-1"
   [_]
-  (let [x (sort (mapv first input))
-        y (sort (mapv second input))]
-    (->> (interleave x y)
+  (let [xs (sort (mapv first input))
+        ys (sort (mapv second input))]
+    (->> (interleave xs ys)
          (partition 2)
          (map (fn [[x y]] (- y x)))
          (map abs)
@@ -34,12 +34,9 @@
 (defn part-2
   "Run with (n)bb -x aoc24.day02/part-2"
   [_]
-  (->> input
-       prn))
-
-;; Test it:
-(comment
-  (first input)  ; should give you [77710 11556]
-  (second input) ; should give you [22632 23674]
-                                        ;
-  (def ex (take 10 input)))
+  (let [xs (map first input)
+        freq-ys (frequencies (map second input))]
+    (->> (for [x xs]
+           (* x (get freq-ys x 0)))
+         (apply +)
+         prn)))
